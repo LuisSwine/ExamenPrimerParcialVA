@@ -1,0 +1,3 @@
+﻿  main.cpp
+C:\Users\luisl\source\repos\Prac\Prac\main.cpp(77,46): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+  Prac.vcxproj -> C:\Users\luisl\source\repos\Prac\x64\Debug\Prac.exe

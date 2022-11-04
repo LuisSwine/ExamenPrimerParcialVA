@@ -1,0 +1,10 @@
+﻿  main.cpp
+C:\Users\luisl\source\repos\Prac\Prac\main.cpp(295,12): warning C4244: 'return': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\luisl\source\repos\Prac\Prac\main.cpp(521,16): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\luisl\source\repos\Prac\Prac\main.cpp(566,14): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+  Generando código
+  3 of 107 functions ( 2.8%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  Generación de código finalizada
+  Prac.vcxproj -> C:\Users\luisl\source\repos\Prac\x64\Release\Prac.exe
