@@ -29,6 +29,7 @@ Mat filtroSobel(Mat imagen);
 Mat redimensionarGray(Mat imagen, int filas, int columnas, int N);
 int convolucionSobel(int fila, int columna, double** mascara, Mat imagen);
 
+//CANNY
 Mat non_MS(Mat magnitudes, double** angulos);
 int getDirByArg(double angulo);
 double** angulos(Mat imgX, Mat imgY);
@@ -131,6 +132,7 @@ int getFrequencyOf(int value, Mat imagen) {
 	int filas = imagen.rows;
 	int columnas = imagen.cols;
 
+	//Inicializamos la frecuencia de cada valor en 0
 	int frecuencia = 0;
 
 	for (int i = 0; i < filas; i++) {
@@ -143,6 +145,7 @@ int getFrequencyOf(int value, Mat imagen) {
 }
 int getMinCDF(int* cdfArray) {
 	int min = cdfArray[0];
+	//Obtenemos el valor minimo del array llenado
 	for (int i = 1; i < 256; i++) {
 		if (cdfArray[i] < min) min = cdfArray[i];
 	}
@@ -150,6 +153,7 @@ int getMinCDF(int* cdfArray) {
 }
 int getMaxCDF(int* cdfArray) {
 	int max = cdfArray[0];
+	//Obtenemos el valor maximo del array llenado
 	for (int i = 1; i < 256; i++) {
 		if (cdfArray[i] > max) max = cdfArray[i];
 	}
@@ -238,7 +242,8 @@ Mat filtroSobel(Mat imagen) {
 
 	double** matAngulos = angulos(imagenX, imagenY);
 	Mat nsm = non_MS(imgSobel, matAngulos);
-	Mat hister1 = primerUmbralado(nsm, 75, 200);
+
+	Mat hister1 = primerUmbralado(nsm, 30, 120);
 
 	//Imprimimos las imagenes de transicion
 	char nombreX[] = "Imagen Sobel X";
@@ -467,7 +472,7 @@ Mat primerUmbralado(Mat imagenNSM, int lowValue, int highValue) {
 			valueAt = imagenNSM.at<uchar>(Point(i, j));
 			if (valueAt >= highValue) imgSalida.at<uchar>(Point(i, j)) = uchar(255);
 			else if (valueAt <= lowValue) imgSalida.at<uchar>(Point(i, j)) = uchar(0);
-			else if(isBorder(imagenNSM, i, j) == 1) imgSalida.at<uchar>(Point(i, j)) = uchar(255);
+			//else if(isBorder(imagenNSM, i, j) == 1) imgSalida.at<uchar>(Point(i, j)) = uchar(255);
 			else imgSalida.at<uchar>(Point(i, j)) = uchar(0);
 		}
 	}
@@ -476,25 +481,27 @@ Mat primerUmbralado(Mat imagenNSM, int lowValue, int highValue) {
 int isBorder(Mat imagen, int x, int y) {
 	int isIt = 0;
 
+	//Detectamos si el pixel puede ser borde o no puede ser borde de la imagen en base a su posiclion con respecto a otros bordes
+
 	if (y >= 1) {
-		if (imagen.at<uchar>(Point(x - 1, y - 1)) >= 110) isIt = 1;
-		if (imagen.at<uchar>(Point(x, y - 1)) >= 110) isIt = 1;
-		if (imagen.at<uchar>(Point(x + 1, y - 1)) >= 110) isIt = 1;
+		if (imagen.at<uchar>(Point(x - 1, y - 1)) >= 60) isIt = 1;
+		if (imagen.at<uchar>(Point(x, y - 1)) >= 60) isIt = 1;
+		if (imagen.at<uchar>(Point(x + 1, y - 1)) >= 60) isIt = 1;
 	}
 	if (y < imagen.cols-1) {
-		if (imagen.at<uchar>(Point(x - 1, y + 1)) >= 110) isIt = 1;
-		if (imagen.at<uchar>(Point(x, y + 1)) >= 110) isIt = 1;
-		if (imagen.at<uchar>(Point(x + 1, y -+1)) >= 110) isIt = 1;
+		if (imagen.at<uchar>(Point(x - 1, y + 1)) >= 60) isIt = 1;
+		if (imagen.at<uchar>(Point(x, y + 1)) >= 60) isIt = 1;
+		if (imagen.at<uchar>(Point(x + 1, y -+1)) >= 60) isIt = 1;
 	}
 	if (x >= 1) {
-		if (imagen.at<uchar>(Point(x - 1, y - 1)) >= 110) isIt = 1;
-		if (imagen.at<uchar>(Point(x - 1, y)) >= 110) isIt = 1;
-		if (imagen.at<uchar>(Point(x - 1, y + 1)) >= 110) isIt = 1;
+		if (imagen.at<uchar>(Point(x - 1, y - 1)) >= 60) isIt = 1;
+		if (imagen.at<uchar>(Point(x - 1, y)) >= 60) isIt = 1;
+		if (imagen.at<uchar>(Point(x - 1, y + 1)) >= 60) isIt = 1;
 	}
 	if (x < imagen.rows-1) {
-		if (imagen.at<uchar>(Point(x + 1, y - 1)) >= 110) isIt = 1;
-		if (imagen.at<uchar>(Point(x + 1, y)) >= 110) isIt = 1;
-		if (imagen.at<uchar>(Point(x + 1, y + 1)) >= 110) isIt = 1;
+		if (imagen.at<uchar>(Point(x + 1, y - 1)) >= 60) isIt = 1;
+		if (imagen.at<uchar>(Point(x + 1, y)) >= 60) isIt = 1;
+		if (imagen.at<uchar>(Point(x + 1, y + 1)) >= 60) isIt = 1;
 	}
 
 	return isIt;
